@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct Question {
     let text: String
@@ -15,6 +16,8 @@ struct Question {
     let answer3: String
     let answer4: String
     let rightAnswer: Int
+    let image: UIImage?    
 }
+
 
 // Für die Bildübergabe: Class: UI Image

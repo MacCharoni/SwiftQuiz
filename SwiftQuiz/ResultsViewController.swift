@@ -9,11 +9,15 @@
 import UIKit
 
 class ResultsViewController: UIViewController {
+    
+    var numberOfRightAnswers: Int = 0
+    var numberOfQuestions: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        //ResultStringName = "Du hast \(numberOfRightAnswers) richtig"
         // Do any additional setup after loading the view.
+        resultString.text = "Du hast \(numberOfRightAnswers) von \(numberOfQuestions) richtig!"
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,8 +25,9 @@ class ResultsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     @IBOutlet weak var resultString: UILabel!
+    var ResultStringName: String?
+
     
-    resultString = "Du hast \(numberOfRightAnswers) von \(questions?.count) richtig"
     
     
     /*

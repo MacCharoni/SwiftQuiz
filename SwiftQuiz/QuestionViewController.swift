@@ -15,13 +15,15 @@ class QuestionViewController: UIViewController {
     @IBOutlet weak var answer3Button: UIButton!
     @IBOutlet weak var answer4Button: UIButton!
     @IBOutlet weak var Frage1: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
     
     var questions: [Question]?
     var question: Question?
     var paleblue: UIColor?
     var counter = 1
     var questionTitle: String?
-    var numberOfRightAnswers = 0 
+    var numberOfRightAnswers = 0
+    var numberOfQuestions: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,15 +35,16 @@ class QuestionViewController: UIViewController {
             return
         }
         
-        let index = Int(arc4random()) % questions.count
-        question = questions[index]
-        self.questions?.removeAtIndex(index)
+        let index2 = Int(arc4random()) % questions.count
+        question = questions[index2]
+        self.questions?.removeAtIndex(index2)
         
             Frage1.text = question?.text
             answer1Button.setTitle(question?.answer1, forState: .Normal)
             answer2Button.setTitle(question?.answer2, forState: .Normal)
             answer3Button.setTitle(question?.answer3, forState: .Normal)
             answer4Button.setTitle(question?.answer4, forState: .Normal)
+            imageView.image = question?.image
         print("View did Load: \(Frage1.text)")
         // Do any additional setup after loading the view.
     }
@@ -123,7 +126,7 @@ class QuestionViewController: UIViewController {
     private func showNextQuestion() {
         
         if questions?.count > 0 {
-            performSegueWithIdentifier("ShowQuestion", sender: nil)
+            performSegueWithIdentifier("ShowNextQuestion", sender: nil)
         }
         else {
             
@@ -173,14 +176,36 @@ class QuestionViewController: UIViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let controller = segue.destinationViewController as? QuestionViewController {
-            controller.questions = questions
-            controller.counter = counter+1
+        
+        if segue.identifier == "Ergebnis" {
+            // ... do sth for ergebnis segue
+            if let controller = segue.destinationViewController as? ResultsViewController {
+                controller.numberOfRightAnswers=numberOfRightAnswers
+                if (questions != nil) {
+                    controller.numberOfQuestions = numberOfQuestions
+                }
+            }
+            
+        } else if segue.identifier == "ShowNextQuestion" {
+            // ... do sth and show next question
+            if let controller = segue.destinationViewController as? QuestionViewController {
+                controller.questions = questions
+                controller.counter = counter+1
+                controller.numberOfRightAnswers=numberOfRightAnswers
+                controller.numberOfQuestions=numberOfQuestions
+            }
+        }
+        
+        
+
+    }
+
+/*    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let controller = segue.destinationViewController as? ResultsViewController {
+            
             controller.numberOfRightAnswers=numberOfRightAnswers
             
         }
     }
-
-
-
+*/
 }
